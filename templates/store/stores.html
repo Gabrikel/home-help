@@ -1,0 +1,52 @@
+{% extends "./base.html" %}
+{% load static %}
+{% block title %}Lojas{% endblock %}
+{% block content %}
+
+
+<main>
+
+  <section class="py-5 text-center container">
+    <div class="col-lg-6 col-md-8 mx-auto">
+      <form class="d-flex">
+        <input class="form-control me-2" type="search" placeholder="Procure por lojas, produtos ou o que deseja construir..." aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Procurar</button>
+      </form>
+    </div>
+  </section>
+  
+
+  <div class="album py-5 bg-light">
+    <div class="container">
+
+      <div class="pb-3 h5">Lojas</div>
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-5 g-3">
+
+        {% for store in stores %}
+
+        <div class="col">
+          <div class="card shadow-sm">
+            
+            <div class="card-body">
+              <p class="card-text">
+                <a class="text-dark text-decoration-none" href="{{ store.get_absolute_url }}">{{ store.name }}</a>
+              </p>
+              <div class="">
+                <small class="text-muted">{{ store.address }}</small>
+                <small class="text-muted">{{ store.city }}</small>
+                <small class="text-muted">{{ store.cep }}</small>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {% endfor %}
+
+      </div>
+    </div>
+  </div>
+
+
+</main>
+
+{% endblock %}
