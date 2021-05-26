@@ -9,7 +9,7 @@ from django.utils import timezone
 class Category(models.Model):
     name = models.CharField(max_length=255, db_index=True)
     slug = models.SlugField(max_length=255, unique=True)
-    image = models.ImageField(upload_to='images/')
+    image = models.ImageField(upload_to='images/', default='images/default.png')
 
 
     class Meta:
@@ -44,7 +44,7 @@ class Product(models.Model):
     store = models.ForeignKey(Store, related_name='products', on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True)
-    image = models.ImageField(upload_to='images/')
+    image = models.ImageField(upload_to='images/', default='images/default.png')
     slug = models.SlugField(max_length=255)
     price = models.DecimalField(max_digits=5, decimal_places=2)
     unity = models.CharField(max_length=255)
