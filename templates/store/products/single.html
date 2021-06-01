@@ -30,7 +30,7 @@
                                 </select>
 
                             </div>
-                            <div class="col-6 text-end"><a href="#" class="btn btn-primary my-2">Adicionar ao carrinho</a></div>
+                            <div class="col-6 text-end"><button type="button" id="add-button" value="{{ product.id }}" class="btn btn-primary my-2">Adicionar ao carrinho</button></div>
                         </div>
                     </div>
                 </div>
@@ -39,4 +39,24 @@
     </main>
 
 </div>
+
+<script>
+    $(document).on('click', '#add-button', function (e) {
+        e.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: '{% url "basket:basket_add" %}', 
+            data: {
+                productid: $('#add-button').val(),
+                csrfmiddlewaretoken: "{{csrf_token}}",
+                action: 'post'
+            },
+            success: function (json) {
+
+            },
+            error: function (xhr, errmsg, err) {}
+        });
+    })
+</script>
+
 {% endblock %}
