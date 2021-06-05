@@ -19,15 +19,13 @@ class Basket():
 
         if product_id not in self.basket:
             self.basket[product_id] = {'price': str(product.price), 'qty': int(qty)}
-        
-        self.session.modified = True
+            self.save()
 
     def __iter__(self):
         """
         Collect the product_id in the session data to query the database and return products
         """
-        product_ids = self.basket.keys()
-        products = Product.products.filter(id__in=product_ids)
+        products = self.get_all_products()
         basket = self.basket.copy()
 
 
@@ -43,7 +41,7 @@ class Basket():
         """
         Get the basket data and count the qty of items
         """
-        products = Product.products.filter(id__in=self.basket.keys())
+        products = self.get_all_products()
         basket_qty = 0
         for product in products:
             basket_qty = basket_qty + 1
@@ -51,3 +49,33 @@ class Basket():
 
     def get_total_price(self):
         return sum(Decimal(item['price']) * item['qty'] for item in self.basket.values())
+    
+    def delete(self, product):
+        """
+        Delete item from session data
+        """
+        product_id = str(product)
+
+        if product_id in self.basket:
+            del self.basket[product_id]
+            print(product_id)
+            self.save()    
+    
+    def update(self, product, qty):
+        """
+        Update item qty from session data
+        """
+        product_id = str(product)
+        product_qty = int(qty)
+
+        if product_id in self.basket:
+            self.basket[product_id]['qty'] = product_qty
+        
+        self.save()
+
+    def get_all_products(self):
+        products = Product.products.filter(id__in=self.basket.keys())
+        return products
+
+    def save(self):
+        self.session.modified = True
