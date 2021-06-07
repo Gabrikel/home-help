@@ -20,8 +20,8 @@
           <div class="border">
             <div class="col border-bottom">
               <div class="row p-3">
-                <div class="col-6">{{ product.store }}</div>
-                <div class="col-6 text-end"><span class="h6 fw-bold">R${{ product.price }}</span></div>
+                <div class="col-6">Preço unitário: R${{ product.price }}</div>
+                <div class="col-6 text-end"><span class="h6 fw-bold">Subtotal: R$ <span id="{{product.id}}" data-index="{{product.id}}" class="subtotal">{{ item.subtotal }}</span></span></div>
               </div>
             </div>
             <div class="col">
@@ -92,6 +92,7 @@
             success: function (json) {
                 document.getElementById("basket-qty").innerHTML = json.qty;
                 document.getElementById("total").innerHTML = json.total;
+                document.getElementById(prodid).innerHTML = json.subtotal;
               },
             error: function (xhr, errmsg, err) {}
         });

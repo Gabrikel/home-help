@@ -34,7 +34,7 @@ class Basket():
 
         for item in basket.values():
             item['price'] = Decimal(item['price'])
-            item['total_price'] = item['price'] * item['qty']
+            item['subtotal'] = item['price'] * item['qty']
             yield item
 
     def __len__(self):
@@ -46,6 +46,11 @@ class Basket():
         for product in products:
             basket_qty = basket_qty + 1
         return basket_qty
+
+    def get_subtotal_price(self, product):
+        product_id = str(product)
+        product_subtotal = Decimal(self.basket[product_id]['price']) * self.basket[product_id]['qty']
+        return product_subtotal
 
     def get_total_price(self):
         return sum(Decimal(item['price']) * item['qty'] for item in self.basket.values())
