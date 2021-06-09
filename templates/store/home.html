@@ -8,7 +8,7 @@
 
   <section class="py-5 text-center container">
     <div class="row py-lg-5">
-      <div class="col-lg-6 col-md-8 mx-auto">
+      <div class="col-lg-8 col-md-8 mx-auto">
         <h1 class="h1 fw-bold">O que você quer construir?</h1>
         <p class="lead text-muted">Com uma simples busca, encontre os melhores materiais nas melhores lojas pertinho de você.</p>
         <p>
@@ -16,7 +16,7 @@
         </p>
       </div>
     </div>
-    <div class="col-lg-6 col-md-8 mx-auto">
+    <div class="col-lg-8 col-md-8 mx-auto">
       <form class="d-flex">
         <input class="form-control me-2" type="search" placeholder="Procure por lojas, produtos ou o que deseja construir..." aria-label="Search">
         <button class="btn btn-outline-success" type="submit">Procurar</button>
@@ -34,7 +34,7 @@
         {% for category in categories %}
 
         <div class="col">
-          <div class="card shadow-sm">
+          <div class="card shadow-sm" style="height: 240px;">
             <img class="img-fluid" alt="Responsive image" src="{{ category.image.url }}">
             <div class="card-body">
               <p class="card-text">
