@@ -18,49 +18,54 @@
         </div>
         <div class="container" style="max-width: 1000px">
             <div class="col-12 p-0">
+                {% if not item %}
+                    <div class="col-12 m-lg-4"><h5>Opss! Parece que não há nenhum produto em seu carrinho...</h5>
+                        
+                    </div>
+                {% else %}
+                    {% for item in basket %}
+                        {% with product=item.product %}
 
-                {% for item in basket %}
-                    {% with product=item.product %}
-
-                    <div class="card mb-3 border-0 product-item" data-index="{{ product.id }}">
-                        <div class="row g-0">
-                            <div class="col-md-2 d-none d-md-block">
-                                <a href="{{ item.product.get_absolute_url }}">
-                                    <img class="img-fluid mx-auto d-block" alt="Responsive image" src="{{ product.image.url }}"/>
-                                </a>
-                            </div>
-                            <div class="col-md-10 ps-md-3">
-                                <div class="card-body p-1">
-                                    <a class="text-decoration-none text-reset" href="{{ item.product.get_absolute_url }}">
-                                        <p class="card-text pb-3 fw-bold">{{ product.name }}</p>
+                        <div class="card mb-3 border-0 product-item" data-index="{{ product.id }}">
+                            <div class="row g-0">
+                                <div class="col-md-2 d-none d-md-block">
+                                    <a href="{{ item.product.get_absolute_url }}">
+                                        <img class="img-fluid mx-auto d-block" alt="Responsive image" src="{{ product.image.url }}"/>
                                     </a>
-                                    <div class="row">
-                                        <div class="col-12 text-end">
-                                            <p class="mb-0">
-                                                <span id="item-qty{{product.id}}" data-index="{{ product.id }}" maxlength="2" value="{{ item.qty }}">{{item.qty}}</span> 
-                                                x R${{ product.price }}
-                                            </p>
-                                                <span class="h6 fw-bold">Total do item: R$ 
-                                                <span id="{{product.id}}" data-index="{{product.id}}" class="subtotal">
-                                                    {{ item.subtotal }}
+                                </div>
+                                <div class="col-md-10 ps-md-3">
+                                    <div class="card-body p-1">
+                                        <a class="text-decoration-none text-reset" href="{{ item.product.get_absolute_url }}">
+                                            <p class="card-text pb-3 fw-bold">{{ product.name }}</p>
+                                        </a>
+                                        <div class="row">
+                                            <div class="col-12 text-end">
+                                                <p class="mb-0">
+                                                    <span id="item-qty{{ product.id }}" data-index="{{ product.id }}" maxlength="2" value="{{ item.qty }}">{{ item.qty }}</span>
+                                                    x R${{ product.price }}
+                                                </p>
+                                                <span class="h6 fw-bold">Total do item: R$
+                                                    <span id="{{ product.id }}" data-index="{{ product.id }}" class="subtotal">
+                                                        {{ item.subtotal }}
+                                                    </span>
                                                 </span>
-                                            </span>
+                                            </div>
                                         </div>
+                                        <label for="select">Quantidade:</label>
+                                        <input style="width: 100px;" id="qty" data-index="{{ product.id }}" maxlength="2" value="{{ item.qty }}" onkeypress="if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;" class="input-qty"></input>
+                                        <button type="button" id="update-button" data-index="{{ product.id }}" class="btn btn-outline-secondary btn-sm update-button">
+                                            Atualizar
+                                        </button>
+                                        <button type="button" id="delete-button" data-index="{{ product.id }}" class="btn btn-outline-secondary btn-sm delete-button">
+                                            Deletar
+                                        </button>
                                     </div>
-                                    <label for="select">Quantidade:</label>
-                                    <input style="width: 100px;" id="qty" data-index="{{ product.id }}" maxlength="2" value="{{ item.qty }}" onkeypress="if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;" class="input-qty"></input>
-                                    <button type="button" id="update-button" data-index="{{ product.id }}" class="btn btn-outline-secondary btn-sm update-button">
-                                        Atualizar
-                                    </button>
-                                    <button type="button" id="delete-button" data-index="{{ product.id }}" class="btn btn-outline-secondary btn-sm delete-button">
-                                        Deletar
-                                    </button>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    {% endwith %}
-                {% endfor %}
+                        {% endwith %}
+                    {% endfor %}
+                {% endif %}
             </div>
 
             <div class="row g-3">
@@ -84,7 +89,7 @@
                     <div class="text-end">
                         <div id="">
                             <span class="small">Taxa de entrega:</span>:
-                            <span class="fw-bold">R$11.50</span>
+                            <span class="fw-bold">FRETE GRÁTIS BABY</span>
                         </div>
                         <div class="pt-2">Valor total:
                             <span class="fw-bold h5">R$</span>
@@ -143,7 +148,7 @@
                 },
                 success: function (json) {
                     document.getElementById("basket-qty").innerHTML = json.qty;
-                    document.getElementById("item-qty"+prodid).innerHTML = $('#qty[data-index="' + prodid + '"]').val();
+                    document.getElementById("item-qty" + prodid).innerHTML = $('#qty[data-index="' + prodid + '"]').val();
                     document.getElementById("total").innerHTML = json.total;
                     document.getElementById(prodid).innerHTML = json.subtotal;
                 },
